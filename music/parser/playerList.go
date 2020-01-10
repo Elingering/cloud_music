@@ -5,10 +5,10 @@ import (
 	"yyy/engine"
 )
 
-const playerRe = `<a .*(/artist\?id=[0-9]+).*[^>]*>([^<]+)</a>`
+const playerListRe = `<a .*(/artist\?id=[0-9]+).*[^>]*>([^<]+)</a>`
 
 func ParsePlayerList(contents []byte) engine.ParseResult {
-	reg := regexp.MustCompile(playerRe)
+	reg := regexp.MustCompile(playerListRe)
 	matches := reg.FindAllSubmatch(contents, -1)
 	result := engine.ParseResult{}
 	// todo
