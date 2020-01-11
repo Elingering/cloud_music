@@ -5,11 +5,11 @@ import (
 	"yyy/engine"
 )
 
-const playerListRe = `<a .*(/artist\?id=[0-9]+).*[^>]*>([^<]+)</a>`
+var playerListRe = regexp.MustCompile(`<a .*(/artist\?id=[0-9]+).*[^>]*>([^<]+)</a>`)
 
+// 解析每个分类下的歌手列表
 func ParsePlayerList(contents []byte) engine.ParseResult {
-	reg := regexp.MustCompile(playerListRe)
-	matches := reg.FindAllSubmatch(contents, -1)
+	matches := playerListRe.FindAllSubmatch(contents, -1)
 	result := engine.ParseResult{}
 	// todo
 	n := 0

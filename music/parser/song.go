@@ -5,6 +5,7 @@ import (
 	"fmt"
 	jsoniter "github.com/json-iterator/go"
 	"log"
+	"net/http"
 	"os"
 	"regexp"
 	"strconv"
@@ -15,40 +16,40 @@ import (
 	"yyy/model"
 )
 
-//const songNameRe = `<em class="f-ff2">([^<]+)</em>`
-const playerRe = `歌手：<span title="([^"]+)">`
-const albumRe = `所属专辑：<a href="/album\?id=[0-9]+" class="s-fc7">([^<]+)</a>`
-const commentApi = `https://music.163.com/api/v1/resource/hotcomments/R_SO_4_` //1415078941?limit=&offset=
+var playerRe = regexp.MustCompile(`歌手：<span title="([^"]+)">`)
+var albumRe = regexp.MustCompile(`所属专辑：<a href="/album\?id=[0-9]+" class="s-fc7">([^<]+)</a>`)
+
+const commentApi = domain + `/api/v1/resource/hotcomments/R_SO_4_`
 const pageSize = 100
 const page = 0
+const appPath = "C:/Users/Administrator/code/yyy"
 
+// 解析歌曲信息
 func ParseSong(contents []byte, songName, songId string) engine.ParseResult {
-	regPlayer := regexp.MustCompile(playerRe)
-	matchPlayer := regPlayer.FindSubmatch(contents)
-	regAlbum := regexp.MustCompile(albumRe)
-	matchAlbum := regAlbum.FindSubmatch(contents)
+	matchPlayer := playerRe.FindSubmatch(contents)
+	matchAlbum := albumRe.FindSubmatch(contents)
 	// 获取歌曲评论
-	getComment(songId, songName, string(matchPlayer[1]), string(matchAlbum[1]), pageSize, page)
-	result := engine.ParseResult{}
+	content := getComment(songId, songName, string(matchPlayer[1]), string(matchAlbum[1]), pageSize, page)
+	result := engine.ParseResult{
+		Items: content,
+	}
 	return result
 }
 
 // 记录爬取数据
-func getComment(songId, songName, player, album string, pageSize, page int) {
+func getComment(songId, songName, player, album string, pageSize, page int) []interface{} {
 	url := commentApi + songId + "?limit=" + strconv.Itoa(pageSize) + "&offset=" + strconv.Itoa(page)
 	json, err := fetcher.Fetch(url)
 	if err != nil {
 		log.Printf("Fetcher: error "+"fetching url %s: %v", url, err)
 	}
-	if err != nil {
-		log.Printf("Fetcher: error "+"fetching url %s: %v", url, err)
-	}
-	result := model.Comment{}
-	_ = jsoniter.Unmarshal(json, &result)
-	if 0 < len(result.HotComments) {
+	result := model.Song{}
+	_ = jsoniter.Unmarshal(json, &result.HotComment)
+	if http.StatusOK == result.HotComment.Code && 0 < len(result.HotComment.Content) {
 		// 将数据记录文件
 		name := strings.Replace(player, "/", "&", -1)
-		file, err := os.Create("./data/" + name + "-" + songId + ".txt")
+		// Golang的相对路径是相对于执行命令时的目录，所以用绝对路径。否则执行测试文件会找不到文件
+		file, err := os.Create(appPath + "/data/" + name + "-" + songId + ".txt")
 		if err != nil {
 			panic(err)
 		}
@@ -58,8 +59,8 @@ func getComment(songId, songName, player, album string, pageSize, page int) {
 		fmt.Fprintln(writer, "歌曲名称："+songName)
 		fmt.Fprintln(writer, "歌手："+player)
 		fmt.Fprintln(writer, "专辑："+album)
-		fmt.Fprintln(writer, "\n")
-		for _, comment := range result.HotComments {
+		fmt.Fprintln(writer, "")
+		for _, comment := range result.HotComment.Content {
 			word := strings.Replace(comment.Content, " ", "", -1)
 			word = strings.Replace(comment.Content, "\n", "", -1)
 			fmt.Fprintln(writer, "用户："+comment.User.Nickname)
@@ -67,12 +68,14 @@ func getComment(songId, songName, player, album string, pageSize, page int) {
 			fmt.Fprintln(writer, "评论："+word)
 			fmt.Fprint(writer, "点赞：")
 			fmt.Fprintln(writer, comment.LikedCount)
-			fmt.Fprintln(writer, "\n")
+			fmt.Fprintln(writer, "")
 		}
 	}
 	// 获取下一页评论
-	if result.HasMore {
+	if result.HotComment.HasMore {
 		getComment(songId, songName, player, album, pageSize, (page+1)*pageSize)
 	}
-	return
+	var item []interface{}
+	item = append(item, songName)
+	return item
 }

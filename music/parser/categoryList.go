@@ -6,11 +6,12 @@ import (
 )
 
 const domain = "https://music.163.com"
-const categoryListRe = `<a href="(/discover/artist/cat\?id=[0-9]{4}).*[^>]*>([^<]+)</a>`
 
+var categoryListRe = regexp.MustCompile(`<a href="(/discover/artist/cat\?id=[0-9]{4}).*[^>]*>([^<]+)</a>`)
+
+// 解析歌手分类列表
 func ParseCategoryList(contents []byte) engine.ParseResult {
-	re := regexp.MustCompile(categoryListRe)
-	matches := re.FindAllSubmatch(contents, -1)
+	matches := categoryListRe.FindAllSubmatch(contents, -1)
 	result := engine.ParseResult{}
 	// todo
 	n := 0
@@ -31,6 +32,7 @@ func ParseCategoryList(contents []byte) engine.ParseResult {
 		//	Url:        domain + string(m[1]) + "&initial=0",
 		//	ParserFunc: ParsePlayerList,
 		//})
+		// 按姓名首字母获取歌手列表
 		//for n := 65; n <= 90; n++ {
 		//	result.Items = append(result.Items, string(m[2]) + string(n))
 		//	result.Requests = append(result.Requests, engine.Request{
@@ -38,8 +40,6 @@ func ParseCategoryList(contents []byte) engine.ParseResult {
 		//		ParserFunc: ParsePlayerList,
 		//	})
 		//}
-		//fmt.Printf("Category: %s, Url: %s\n ", m[2], m[1])
 	}
-	//fmt.Printf("Matches found: %d\n", len(matches))
 	return result
 }

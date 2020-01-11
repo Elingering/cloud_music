@@ -5,11 +5,11 @@ import (
 	"yyy/engine"
 )
 
-const songRe = `<a href="/song\?id=([0-9]+)">([^<]+)</a>`
+var songRe = regexp.MustCompile(`<a href="/song\?id=([0-9]+)">([^<]+)</a>`)
 
+// 解析每个歌手的歌曲列表
 func ParseSongList(contents []byte) engine.ParseResult {
-	reg := regexp.MustCompile(songRe)
-	matches := reg.FindAllSubmatch(contents, -1)
+	matches := songRe.FindAllSubmatch(contents, -1)
 	result := engine.ParseResult{}
 	// todo
 	n := 0

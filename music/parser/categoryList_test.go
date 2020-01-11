@@ -5,22 +5,22 @@ import (
 	"testing"
 )
 
-func TestParserCategoryList(t *testing.T) {
+func TestParseCategoryList(t *testing.T) {
 	contents, err := ioutil.ReadFile("categoryList_test_data.html")
 	if err != nil {
 		panic(err)
 	}
-	result := ParserCategoryList(contents)
-	const resultSize = 15
+	result := ParseCategoryList(contents)
+	const resultSize = 3
 	expectedUrl := []string{
-		"https://music.163.com/discover/artist/cat?id=1001",
-		"https://music.163.com/discover/artist/cat?id=1002",
-		"https://music.163.com/discover/artist/cat?id=1003",
+		"https://music.163.com/discover/artist/cat?id=1001&initial=-1",
+		"https://music.163.com/discover/artist/cat?id=1002&initial=-1",
+		"https://music.163.com/discover/artist/cat?id=1003&initial=-1",
 	}
 	expectedCategory := []string{
-		"华语男歌手",
-		"华语女歌手",
-		"华语组合/乐队",
+		"华语男歌手-1",
+		"华语女歌手-1",
+		"华语组合/乐队-1",
 	}
 	if len(result.Requests) != resultSize {
 		t.Errorf("Result should have %d requests; but had %d", resultSize, len(result.Requests))
