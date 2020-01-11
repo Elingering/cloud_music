@@ -11,7 +11,6 @@ const categoryListRe = `<a href="(/discover/artist/cat\?id=[0-9]{4}).*[^>]*>([^<
 func ParseCategoryList(contents []byte) engine.ParseResult {
 	re := regexp.MustCompile(categoryListRe)
 	matches := re.FindAllSubmatch(contents, -1)
-	//fmt.Printf("%s\n", contents)
 	result := engine.ParseResult{}
 	// todo
 	n := 0

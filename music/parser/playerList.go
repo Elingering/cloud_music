@@ -23,8 +23,6 @@ func ParsePlayerList(contents []byte) engine.ParseResult {
 			Url:        domain + string(m[1]),
 			ParserFunc: ParseSongList,
 		})
-		//fmt.Printf("Player: %s, Url: %s\n ", m[2], m[1])
 	}
-	//fmt.Printf("Matches found: %d\n", len(matches))
 	return result
 }

@@ -7,6 +7,7 @@ import (
 	"golang.org/x/text/encoding"
 	"golang.org/x/text/encoding/unicode"
 	"golang.org/x/text/transform"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -32,7 +33,7 @@ func Fetch(url string) ([]byte, error) {
 //分析网页字符集
 func determineEncoding(r *bufio.Reader) encoding.Encoding {
 	bytes, err := r.Peek(1024)
-	if err != nil {
+	if err != nil && err != io.EOF {
 		log.Printf("Fetcher error: %v", err)
 		return unicode.UTF8
 	}

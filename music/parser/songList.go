@@ -5,7 +5,7 @@ import (
 	"yyy/engine"
 )
 
-const songRe = `<a href="(/song\?id=[0-9]+)">([^<]+)</a>`
+const songRe = `<a href="/song\?id=([0-9]+)">([^<]+)</a>`
 
 func ParseSongList(contents []byte) engine.ParseResult {
 	reg := regexp.MustCompile(songRe)
@@ -21,15 +21,13 @@ func ParseSongList(contents []byte) engine.ParseResult {
 		// 拷贝 songName songId 否则 ParserFunc 始终会是最后一个值
 		songName := string(m[2])
 		songId := string(m[1])
-		result.Items = append(result.Items, string(m[2]))
+		result.Items = append(result.Items, songName)
 		result.Requests = append(result.Requests, engine.Request{
-			Url: domain + string(m[1]),
+			Url: domain + "/song?id=" + songId,
 			ParserFunc: func(bytes []byte) engine.ParseResult {
 				return ParseSong(bytes, songName, songId)
 			},
 		})
-		//fmt.Printf("Song: %s, Url: %s\n ", m[2], m[1])
 	}
-	//fmt.Printf("Matches found: %d\n", len(matches))
 	return result
 }
