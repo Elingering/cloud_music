@@ -14,6 +14,7 @@ import (
 	"yyy/engine"
 	"yyy/fetcher"
 	"yyy/model"
+	"yyy/tool"
 )
 
 var playerRe = regexp.MustCompile(`歌手：<span title="([^"]+)">`)
@@ -22,7 +23,6 @@ var albumRe = regexp.MustCompile(`所属专辑：<a href="/album\?id=[0-9]+" cla
 const commentApi = domain + `/api/v1/resource/hotcomments/R_SO_4_`
 const pageSize = 100
 const page = 0
-const appPath = "C:/Users/Administrator/code/yyy"
 
 // 解析歌曲信息
 func ParseSong(contents []byte, songName, songId string) engine.ParseResult {
@@ -48,8 +48,19 @@ func getComment(songId, songName, player, album string, pageSize, page int) []in
 	if http.StatusOK == result.HotComment.Code && 0 < len(result.HotComment.Content) {
 		// 将数据记录文件
 		name := strings.Replace(player, "/", "&", -1)
+		// 创建目录 ~/data
+		home, err := tool.Home()
+		if err != nil {
+			panic(err)
+		}
+		dataPath := home + "/data"
+		err = tool.MakeDir(dataPath)
+		if err != nil {
+			log.Printf("dataPath: error "+"making dir %s: %v", dataPath, err)
+			panic("making dir error: ~/data")
+		}
 		// Golang的相对路径是相对于执行命令时的目录，所以用绝对路径。否则执行测试文件会找不到文件
-		file, err := os.Create(appPath + "/data/" + name + "-" + songId + ".txt")
+		file, err := os.Create(dataPath + "/" + name + "-" + songId + ".txt")
 		if err != nil {
 			panic(err)
 		}
