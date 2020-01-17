@@ -3,6 +3,7 @@ package main
 import (
 	"yyy/engine"
 	"yyy/music/parser"
+	"yyy/persist"
 	"yyy/scheduler"
 )
 
@@ -19,6 +20,7 @@ func main() {
 		//Scheduler:   &scheduler.SimpleScheduler{},
 		Scheduler:   &scheduler.QueuedScheduler{},
 		WorkerCount: 100,
+		ItemChan:    persist.ItemSaver(),
 	}
 	e.Run(engine.Request{
 		Url:        "https://music.163.com/discover/artist",

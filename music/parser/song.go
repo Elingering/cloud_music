@@ -96,6 +96,7 @@ func getComment(songId, songName, player, album string, pageSize, page int) []in
 	}
 	result := model.RawData{}
 	_ = jsoniter.Unmarshal(json, &result)
+	var commentItem []interface{}
 	if http.StatusOK == result.Code && 0 < len(result.HotComments) {
 		var songComment model.SongComment
 		songComment.SongName = songName
@@ -108,14 +109,12 @@ func getComment(songId, songName, player, album string, pageSize, page int) []in
 			songComment.Time = time.Unix(comment.Time/1000, 0).Format("2006-01-02 15:04:05")
 			songComment.Content = word
 			songComment.LikedCount = comment.LikedCount
-			log.Printf("%+v", songComment)
+			commentItem = append(commentItem, songComment)
 		}
 	}
 	// 获取下一页评论
 	if result.HasMore {
 		getComment(songId, songName, player, album, pageSize, (page+1)*pageSize)
 	}
-	var item []interface{}
-	item = append(item, songName)
-	return item
+	return commentItem
 }
