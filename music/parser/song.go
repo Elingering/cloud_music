@@ -98,12 +98,12 @@ func getComment(songId, songName, player, album string, pageSize, page int) []in
 	_ = jsoniter.Unmarshal(json, &result)
 	if http.StatusOK == result.Code && 0 < len(result.HotComments) {
 		var songComment model.SongComment
+		songComment.SongName = songName
+		songComment.Player = player
+		songComment.Album = album
 		for _, comment := range result.HotComments {
 			word := strings.Replace(comment.Content, " ", "", -1)
 			word = strings.Replace(comment.Content, "\n", "", -1)
-			songComment.SongName = songName
-			songComment.Player = player
-			songComment.Album = album
 			songComment.Nickname = comment.User.Nickname
 			songComment.Time = time.Unix(comment.Time/1000, 0).Format("2006-01-02 15:04:05")
 			songComment.Content = word
