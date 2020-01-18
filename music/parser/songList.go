@@ -21,7 +21,7 @@ func ParseSongList(contents []byte) engine.ParseResult {
 		// 拷贝 songName songId 否则 ParserFunc 始终会是最后一个值
 		songName := string(m[2])
 		songId := string(m[1])
-		result.Items = append(result.Items, songName)
+		//result.Items = append(result.Items, songName)
 		result.Requests = append(result.Requests, engine.Request{
 			Url: domain + "/song?id=" + songId,
 			ParserFunc: func(bytes []byte) engine.ParseResult {

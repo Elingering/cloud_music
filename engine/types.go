@@ -1,5 +1,7 @@
 package engine
 
+import "yyy/model"
+
 type Request struct {
 	Url        string
 	ParserFunc func([]byte) ParseResult
@@ -7,5 +9,6 @@ type Request struct {
 
 type ParseResult struct {
 	Requests []Request
-	Items    []interface{}
+	//Items    []interface{}
+	Items []model.SongComment
 }

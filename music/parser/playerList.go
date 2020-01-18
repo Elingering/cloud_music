@@ -18,7 +18,7 @@ func ParsePlayerList(contents []byte) engine.ParseResult {
 		if n > 3 {
 			break
 		}
-		result.Items = append(result.Items, string(m[2]))
+		//result.Items = append(result.Items, string(m[2]))
 		result.Requests = append(result.Requests, engine.Request{
 			Url:        domain + string(m[1]),
 			ParserFunc: ParseSongList,

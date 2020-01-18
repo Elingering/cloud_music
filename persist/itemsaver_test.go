@@ -10,31 +10,35 @@ import (
 
 func TestItemSaver(t *testing.T) {
 	expected := model.SongComment{
+		Url:        "https://music.163.com/song?id=1336856777",
+		Id:         "1336856777",
 		Player:     "老樊",
 		SongName:   "我曾",
-		Album:      "年少有为",
+		Album:      "我曾",
 		Nickname:   "Elinger",
 		Content:    "这是一个测试文件",
 		Time:       "2020-01-01 00:00:01",
 		LikedCount: 10000,
 	}
-	id, err := save(expected)
-	if err != nil {
-		panic(err)
-	}
 	client, err := elastic.NewClient(elastic.SetSniff(false))
 	if err != nil {
 		panic(err)
 	}
+	index := "yyy_test"
+	table := "comment"
+	err = save(client, expected, index, table)
+	if err != nil {
+		panic(err)
+	}
 	resp, err := client.Get().
-		Index("yyy").
-		Type("comment").
-		Id(id).
+		Index(index).
+		Type(table).
+		Id(expected.Id).
 		Do(context.Background())
 	if err != nil {
 		panic(err)
 	}
-	t.Logf("%s", resp.Source)
+	//t.Logf("%s", resp.Source)
 	var actual model.SongComment
 	err = jsoniter.Unmarshal(*resp.Source, &actual)
 	if err != nil {

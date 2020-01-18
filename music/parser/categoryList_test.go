@@ -17,11 +17,6 @@ func TestParseCategoryList(t *testing.T) {
 		"https://music.163.com/discover/artist/cat?id=1002&initial=-1",
 		"https://music.163.com/discover/artist/cat?id=1003&initial=-1",
 	}
-	expectedCategory := []string{
-		"华语男歌手-1",
-		"华语女歌手-1",
-		"华语组合/乐队-1",
-	}
 	if len(result.Requests) != resultSize {
 		t.Errorf("Result should have %d requests; but had %d", resultSize, len(result.Requests))
 	}
@@ -32,10 +27,5 @@ func TestParseCategoryList(t *testing.T) {
 	}
 	if len(result.Requests) != resultSize {
 		t.Errorf("Result should have %d items; but had %d", resultSize, len(result.Items))
-	}
-	for i, category := range expectedCategory {
-		if result.Items[i].(string) != category {
-			t.Errorf("expected category #%d: %s; but was %s", i, category, result.Items[i].(string))
-		}
 	}
 }

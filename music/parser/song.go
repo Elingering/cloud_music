@@ -88,7 +88,7 @@ func ParseSong(contents []byte, songName, songId string) engine.ParseResult {
 //}
 
 // 记录爬取数据
-func getComment(songId, songName, player, album string, pageSize, page int) []interface{} {
+func getComment(songId, songName, player, album string, pageSize, page int) []model.SongComment {
 	url := commentApi + songId + "?limit=" + strconv.Itoa(pageSize) + "&offset=" + strconv.Itoa(page)
 	json, err := fetcher.Fetch(url)
 	if err != nil {
@@ -96,9 +96,10 @@ func getComment(songId, songName, player, album string, pageSize, page int) []in
 	}
 	result := model.RawData{}
 	_ = jsoniter.Unmarshal(json, &result)
-	var commentItem []interface{}
+	var commentItem []model.SongComment
 	if http.StatusOK == result.Code && 0 < len(result.HotComments) {
 		var songComment model.SongComment
+		songComment.Url = domain + "/song?id=" + songId
 		songComment.SongName = songName
 		songComment.Player = player
 		songComment.Album = album
@@ -108,6 +109,7 @@ func getComment(songId, songName, player, album string, pageSize, page int) []in
 			songComment.Nickname = comment.User.Nickname
 			songComment.Time = time.Unix(comment.Time/1000, 0).Format("2006-01-02 15:04:05")
 			songComment.Content = word
+			songComment.Id = strconv.Itoa(comment.CommentId)
 			songComment.LikedCount = comment.LikedCount
 			commentItem = append(commentItem, songComment)
 		}

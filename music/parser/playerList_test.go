@@ -17,11 +17,6 @@ func TestParsePlayerList(t *testing.T) {
 		"https://music.163.com/artist?id=5781",
 		"https://music.163.com/artist?id=4292",
 	}
-	expectedPlayer := []string{
-		"隔壁老樊",
-		"薛之谦",
-		"李荣浩",
-	}
 	if len(result.Requests) != resultSize {
 		t.Errorf("Result should have %d requests; but had %d", resultSize, len(result.Requests))
 	}
@@ -32,10 +27,5 @@ func TestParsePlayerList(t *testing.T) {
 	}
 	if len(result.Requests) != resultSize {
 		t.Errorf("Result should have %d items; but had %d", resultSize, len(result.Items))
-	}
-	for i, player := range expectedPlayer {
-		if result.Items[i].(string) != player {
-			t.Errorf("expected player #%d: %s; but was %s", i, player, result.Items[i].(string))
-		}
 	}
 }

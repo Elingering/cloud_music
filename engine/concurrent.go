@@ -1,9 +1,5 @@
 package engine
 
-import (
-	"log"
-)
-
 type ConcurrentEngine struct {
 	Scheduler   Scheduler
 	WorkerCount int
@@ -33,9 +29,6 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 	for {
 		result := <-out
 		for _, item := range result.Items {
-			if s, ok := item.(string); ok {
-				log.Printf("Got item: %v", s)
-			}
 			tempItem := item
 			go func() { e.ItemChan <- tempItem }()
 		}
