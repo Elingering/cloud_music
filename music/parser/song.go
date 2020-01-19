@@ -97,12 +97,12 @@ func getComment(songId, songName, player, album string, pageSize, page int) []mo
 	result := model.RawData{}
 	_ = jsoniter.Unmarshal(json, &result)
 	var commentItem []model.SongComment
+	var songComment model.SongComment
+	songComment.Url = domain + "/song?id=" + songId
+	songComment.SongName = songName
+	songComment.Player = player
+	songComment.Album = album
 	if http.StatusOK == result.Code && 0 < len(result.HotComments) {
-		var songComment model.SongComment
-		songComment.Url = domain + "/song?id=" + songId
-		songComment.SongName = songName
-		songComment.Player = player
-		songComment.Album = album
 		for _, comment := range result.HotComments {
 			word := strings.Replace(comment.Content, " ", "", -1)
 			word = strings.Replace(comment.Content, "\n", "", -1)
@@ -113,6 +113,10 @@ func getComment(songId, songName, player, album string, pageSize, page int) []mo
 			songComment.LikedCount = comment.LikedCount
 			commentItem = append(commentItem, songComment)
 		}
+	} else {
+		songComment.Id = songName
+		songComment.Content = songName
+		commentItem = append(commentItem, songComment)
 	}
 	// 获取下一页评论
 	if result.HasMore {
