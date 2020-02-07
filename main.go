@@ -1,6 +1,7 @@
 package main
 
 import (
+	"yyy/distributed/config"
 	"yyy/engine"
 	"yyy/music/parser"
 	"yyy/persist"
@@ -22,12 +23,13 @@ func main() {
 	}
 	e := engine.ConcurrentEngine{
 		//Scheduler:   &scheduler.SimpleScheduler{},
-		Scheduler:   &scheduler.QueuedScheduler{},
-		WorkerCount: 100,
-		ItemChan:    itemChan,
+		Scheduler:        &scheduler.QueuedScheduler{},
+		WorkerCount:      100,
+		ItemChan:         itemChan,
+		RequestProcessor: engine.Worker,
 	}
 	e.Run(engine.Request{
-		Url:        "https://music.163.com/discover/artist",
-		ParserFunc: parser.ParseCategoryList,
+		Url:    "https://music.163.com/discover/artist",
+		Parser: engine.NewFuncParser(parser.ParseCategoryList, config.ParseCategoryList),
 	})
 }

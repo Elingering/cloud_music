@@ -10,7 +10,7 @@ func TestParseCategoryList(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	result := ParseCategoryList(contents)
+	result := ParseCategoryList(contents, "")
 	const resultSize = 3
 	expectedUrl := []string{
 		"https://music.163.com/discover/artist/cat?id=1001&initial=-1",

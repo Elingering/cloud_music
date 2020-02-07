@@ -8,7 +8,7 @@ import (
 var songRe = regexp.MustCompile(`<a href="/song\?id=([0-9]+)">([^<]+)</a>`)
 
 // 解析每个歌手的歌曲列表
-func ParseSongList(contents []byte) engine.ParseResult {
+func ParseSongList(contents []byte, _ string) engine.ParseResult {
 	matches := songRe.FindAllSubmatch(contents, -1)
 	result := engine.ParseResult{}
 	// todo
@@ -23,11 +23,29 @@ func ParseSongList(contents []byte) engine.ParseResult {
 		songId := string(m[1])
 		//result.Items = append(result.Items, songName)
 		result.Requests = append(result.Requests, engine.Request{
-			Url: domain + "/song?id=" + songId,
-			ParserFunc: func(bytes []byte) engine.ParseResult {
-				return ParseSong(bytes, songName, songId)
-			},
+			Url:    domain + "/song?id=" + songId,
+			Parser: NewSongParser(songName, songId),
 		})
 	}
 	return result
+}
+
+type SongParser struct {
+	songName string
+	songId   string
+}
+
+func (s *SongParser) Parse(contents []byte, url string) engine.ParseResult {
+	return parseSong(contents, s.songName, s.songId)
+}
+
+func (s *SongParser) Serialize() (name string, args interface{}) {
+	return "ParseSong", s.songName + "," + s.songId
+}
+
+func NewSongParser(name, id string) *SongParser {
+	return &SongParser{
+		songId:   id,
+		songName: name,
+	}
 }

@@ -12,7 +12,7 @@ func TestParseSong(t *testing.T) {
 		panic(err)
 	}
 	// 热评是动态的，此测试不保证随时可用
-	result := ParseSong(contents, "这一生关于你的风景", "1383927243")
+	result := parseSong(contents, "这一生关于你的风景", "1383927243")
 	expected := model.SongComment{
 		Url: "https://music.163.com/song?id=1383927243",
 		//Id:         "1597116361",

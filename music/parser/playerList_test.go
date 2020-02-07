@@ -10,7 +10,7 @@ func TestParsePlayerList(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	result := ParsePlayerList(contents)
+	result := ParsePlayerList(contents, "")
 	const resultSize = 3
 	expectedUrl := []string{
 		"https://music.163.com/artist?id=12429072",

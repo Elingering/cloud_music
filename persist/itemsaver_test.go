@@ -26,7 +26,7 @@ func TestItemSaver(t *testing.T) {
 	}
 	index := "yyy_test"
 	table := "comment"
-	err = save(client, expected, index, table)
+	err = Save(client, expected, index, table)
 	if err != nil {
 		panic(err)
 	}

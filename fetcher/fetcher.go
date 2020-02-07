@@ -12,12 +12,14 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"yyy/distributed/config"
 )
 
-var rateLimit = time.Tick(10 * time.Millisecond)
+var rateLimit = time.Tick(time.Second / config.Qps)
 
 func Fetch(url string) ([]byte, error) {
 	<-rateLimit
+	log.Printf("Fetching url %s", url)
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err

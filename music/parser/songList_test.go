@@ -10,7 +10,7 @@ func TestParseSongList(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	result := ParseSongList(contents)
+	result := ParseSongList(contents, "")
 	const resultSize = 3
 	expectedUrl := []string{
 		"https://music.163.com/song?id=1346104327",

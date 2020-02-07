@@ -2,6 +2,7 @@ package parser
 
 import (
 	"regexp"
+	"yyy/distributed/config"
 	"yyy/engine"
 )
 
@@ -10,7 +11,7 @@ const domain = "https://music.163.com"
 var categoryListRe = regexp.MustCompile(`<a href="(/discover/artist/cat\?id=[0-9]{4}).*[^>]*>([^<]+)</a>`)
 
 // 解析歌手分类列表
-func ParseCategoryList(contents []byte) engine.ParseResult {
+func ParseCategoryList(contents []byte, _ string) engine.ParseResult {
 	matches := categoryListRe.FindAllSubmatch(contents, -1)
 	result := engine.ParseResult{}
 	// todo
@@ -23,8 +24,8 @@ func ParseCategoryList(contents []byte) engine.ParseResult {
 		// 拼接完整地址 initial = [-10a-z]
 		//result.Items = append(result.Items, string(m[2])+"-1")
 		result.Requests = append(result.Requests, engine.Request{
-			Url:        domain + string(m[1]) + "&initial=-1",
-			ParserFunc: ParsePlayerList,
+			Url:    domain + string(m[1]) + "&initial=-1",
+			Parser: engine.NewFuncParser(ParsePlayerList, config.ParsePlayerList),
 		})
 		// 数据太多，先测每个分类下的热门歌手
 		//result.Items = append(result.Items, string(m[2]) + "0")

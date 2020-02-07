@@ -20,7 +20,7 @@ func ItemSaver(index, table string) (chan interface{}, error) {
 			if s, ok := item.(model.SongComment); ok {
 				log.Printf("Item saver: got item #%d: %v", itemCount, s)
 				itemCount++
-				err = save(client, s, index, table)
+				err = Save(client, s, index, table)
 				if err != nil {
 					log.Printf("Item saver: error saving item %v: %v", s, err)
 				}
@@ -30,7 +30,7 @@ func ItemSaver(index, table string) (chan interface{}, error) {
 	return out, err
 }
 
-func save(client *elastic.Client, item model.SongComment, index, table string) error {
+func Save(client *elastic.Client, item model.SongComment, index, table string) error {
 	_, err := client.Index().
 		Index(index).
 		Type(table).
