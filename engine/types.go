@@ -9,6 +9,5 @@ type Request struct {
 
 type ParseResult struct {
 	Requests []Request
-	//Items    []interface{}
-	Items []model.SongComment
+	Items    []model.SongComment
 }
