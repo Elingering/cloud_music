@@ -34,7 +34,7 @@ func ParseSong(contents []byte, songName, songId string) engine.ParseResult {
 
 // 记录爬取数据到 ~/data
 //func getComment(songId, songName, player, album string, pageSize, page int) []interface{} {
-//	url := commentApi + songId + "?limit=" + strconv.Itoa(pageSize) + "&offset=" + strconv.Itoa(page)
+//	url := commentApi + songId + "?limit=" + strconv.Itoa(pageSize) + "&offset=" + strconv.Itoa(page*pageSize)
 //	json, err := fetcher.Fetch(url)
 //	if err != nil {
 //		log.Printf("Fetcher: error "+"fetching url %s: %v", url, err)
@@ -80,16 +80,16 @@ func ParseSong(contents []byte, songName, songId string) engine.ParseResult {
 //	}
 //	// 获取下一页评论
 //	if result.HasMore {
-//		getComment(songId, songName, player, album, pageSize, (page+1)*pageSize)
+//		getComment(songId, songName, player, album, pageSize, page+1)
 //	}
 //	var item []interface{}
 //	item = append(item, songName)
 //	return item
 //}
 
-// 记录爬取数据
+// 记录爬取数据 打印到终端
 func getComment(songId, songName, player, album string, pageSize, page int) []interface{} {
-	url := commentApi + songId + "?limit=" + strconv.Itoa(pageSize) + "&offset=" + strconv.Itoa(page)
+	url := commentApi + songId + "?limit=" + strconv.Itoa(pageSize) + "&offset=" + strconv.Itoa(page*pageSize)
 	json, err := fetcher.Fetch(url)
 	if err != nil {
 		log.Printf("Fetcher: error "+"fetching url %s: %v", url, err)
@@ -113,7 +113,7 @@ func getComment(songId, songName, player, album string, pageSize, page int) []in
 	}
 	// 获取下一页评论
 	if result.HasMore {
-		getComment(songId, songName, player, album, pageSize, (page+1)*pageSize)
+		getComment(songId, songName, player, album, pageSize, page+1)
 	}
 	var item []interface{}
 	item = append(item, songName)
