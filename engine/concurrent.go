@@ -1,9 +1,11 @@
 package engine
 
+import "yyy/model"
+
 type ConcurrentEngine struct {
 	Scheduler   Scheduler
 	WorkerCount int
-	ItemChan    chan interface{}
+	ItemChan    chan model.SongComment
 }
 
 type Scheduler interface {

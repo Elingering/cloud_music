@@ -7,8 +7,8 @@ import (
 	"yyy/model"
 )
 
-func ItemSaver(index, table string) (chan interface{}, error) {
-	out := make(chan interface{})
+func ItemSaver(index, table string) (chan model.SongComment, error) {
+	out := make(chan model.SongComment)
 	client, err := elastic.NewClient(elastic.SetSniff(false))
 	if err != nil {
 		return out, err
@@ -17,13 +17,11 @@ func ItemSaver(index, table string) (chan interface{}, error) {
 		itemCount := 0
 		for {
 			item := <-out
-			if s, ok := item.(model.SongComment); ok {
-				log.Printf("Item saver: got item #%d: %v", itemCount, s)
-				itemCount++
-				err = save(client, s, index, table)
-				if err != nil {
-					log.Printf("Item saver: error saving item %v: %v", s, err)
-				}
+			log.Printf("Item saver: got item #%d: %v", itemCount, item)
+			itemCount++
+			err = save(client, item, index, table)
+			if err != nil {
+				log.Printf("Item saver: error saving item %v: %v", item, err)
 			}
 		}
 	}()
