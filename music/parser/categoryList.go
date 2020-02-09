@@ -22,7 +22,6 @@ func ParseCategoryList(contents []byte, _ string) engine.ParseResult {
 			break
 		}
 		// 拼接完整地址 initial = [-10a-z]
-		//result.Items = append(result.Items, string(m[2])+"-1")
 		result.Requests = append(result.Requests, engine.Request{
 			Url:    domain + string(m[1]) + "&initial=-1",
 			Parser: engine.NewFuncParser(ParsePlayerList, config.ParsePlayerList),
