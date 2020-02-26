@@ -1,11 +1,11 @@
 package persist
 
 import (
+	"cloud_music/model"
 	"context"
 	jsoniter "github.com/json-iterator/go"
 	"gopkg.in/olivere/elastic.v5"
 	"testing"
-	"yyy/model"
 )
 
 func TestItemSaver(t *testing.T) {
@@ -24,7 +24,7 @@ func TestItemSaver(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	index := "yyy_test"
+	index := "cloud_music_test"
 	table := "comment"
 	err = save(client, expected, index, table)
 	if err != nil {

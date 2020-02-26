@@ -1,9 +1,9 @@
 package parser
 
 import (
+	"cloud_music/model"
 	"io/ioutil"
 	"testing"
-	"yyy/model"
 )
 
 func TestParseSong(t *testing.T) {

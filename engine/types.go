@@ -1,6 +1,6 @@
 package engine
 
-import "yyy/model"
+import "cloud_music/model"
 
 type Request struct {
 	Url        string

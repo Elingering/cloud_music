@@ -1,15 +1,15 @@
 package main
 
 import (
-	"yyy/engine"
-	"yyy/music/parser"
-	"yyy/persist"
-	"yyy/scheduler"
+	"cloud_music/engine"
+	"cloud_music/music/parser"
+	"cloud_music/persist"
+	"cloud_music/scheduler"
 )
 
 func main() {
 	// 并发版
-	itemChan, err := persist.ItemSaver("yyy", "comment")
+	itemChan, err := persist.ItemSaver("cloud_music", "comment")
 	if err != nil {
 		panic(err)
 	}

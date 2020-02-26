@@ -1,10 +1,10 @@
 package persist
 
 import (
+	"cloud_music/model"
 	"context"
 	"gopkg.in/olivere/elastic.v5"
 	"log"
-	"yyy/model"
 )
 
 func ItemSaver(index, table string) (chan model.SongComment, error) {
