@@ -1,4 +1,4 @@
-module yyy
+module cloud_music
 
 go 1.13
 

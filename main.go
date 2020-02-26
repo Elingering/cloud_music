@@ -1,8 +1,8 @@
 package main
 
 import (
-	"yyy/engine"
-	"yyy/music/parser"
+	"cloud_music/engine"
+	"cloud_music/music/parser"
 )
 
 func main() {
