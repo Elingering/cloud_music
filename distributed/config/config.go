@@ -1,7 +1,7 @@
 package config
 
 const (
-	ElasticIndex    = "yyy"
+	ElasticIndex    = "cloud_music"
 	ElasticTable    = "comment"
 	ItemSaverRpc    = "ItemSaverService.Save"
 	CrawlServiceRpc = "CrawlService.Process"

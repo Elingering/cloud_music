@@ -1,8 +1,8 @@
 package parser
 
 import (
+	"cloud_music/engine"
 	"regexp"
-	"yyy/engine"
 )
 
 var songRe = regexp.MustCompile(`<a href="/song\?id=([0-9]+)">([^<]+)</a>`)

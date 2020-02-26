@@ -1,13 +1,13 @@
 package main
 
 import (
+	"cloud_music/distributed/config"
+	"cloud_music/distributed/persist"
+	"cloud_music/distributed/rpcsupport"
 	"flag"
 	"fmt"
 	"gopkg.in/olivere/elastic.v5"
 	"log"
-	"yyy/distributed/config"
-	"yyy/distributed/persist"
-	"yyy/distributed/rpcsupport"
 )
 
 var port = flag.Int("port", 0, "the port for me to listen on")

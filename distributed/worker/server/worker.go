@@ -1,11 +1,11 @@
 package main
 
 import (
+	"cloud_music/distributed/rpcsupport"
+	"cloud_music/distributed/worker"
 	"flag"
 	"fmt"
 	"log"
-	"yyy/distributed/rpcsupport"
-	"yyy/distributed/worker"
 )
 
 var port = flag.Int("port", 0, "the port for me to listen on")

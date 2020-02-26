@@ -1,10 +1,10 @@
 package client
 
 import (
+	"cloud_music/distributed/config"
+	"cloud_music/distributed/rpcsupport"
+	"cloud_music/model"
 	"log"
-	"yyy/distributed/config"
-	"yyy/distributed/rpcsupport"
-	"yyy/model"
 )
 
 func ItemSaver(host string) (chan model.SongComment, error) {

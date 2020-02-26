@@ -1,12 +1,12 @@
 package main
 
 import (
+	"cloud_music/distributed/config"
+	"cloud_music/distributed/rpcsupport"
+	"cloud_music/distributed/worker"
 	"fmt"
 	"testing"
 	"time"
-	"yyy/distributed/config"
-	"yyy/distributed/rpcsupport"
-	"yyy/distributed/worker"
 )
 
 func TestCrawlService(t *testing.T) {

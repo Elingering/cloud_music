@@ -1,9 +1,9 @@
 package persist
 
 import (
+	"cloud_music/model"
 	"context"
 	"gopkg.in/olivere/elastic.v5"
-	"yyy/model"
 )
 
 func Save(client *elastic.Client, item model.SongComment, index, table string) error {

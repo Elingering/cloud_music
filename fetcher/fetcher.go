@@ -2,6 +2,7 @@ package fetcher
 
 import (
 	"bufio"
+	"cloud_music/distributed/config"
 	"fmt"
 	"golang.org/x/net/html/charset"
 	"golang.org/x/text/encoding"
@@ -12,7 +13,6 @@ import (
 	"log"
 	"net/http"
 	"time"
-	"yyy/distributed/config"
 )
 
 var rateLimit = time.Tick(time.Second / config.Qps)

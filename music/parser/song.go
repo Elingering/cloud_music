@@ -1,6 +1,9 @@
 package parser
 
 import (
+	"cloud_music/engine"
+	"cloud_music/fetcher"
+	"cloud_music/model"
 	jsoniter "github.com/json-iterator/go"
 	"log"
 	"net/http"
@@ -8,9 +11,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"yyy/engine"
-	"yyy/fetcher"
-	"yyy/model"
 )
 
 var playerRe = regexp.MustCompile(`歌手：<span title="([^"]+)">`)

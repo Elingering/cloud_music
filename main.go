@@ -1,17 +1,17 @@
 package main
 
 import (
+	"cloud_music/distributed/config"
+	itemsaver "cloud_music/distributed/persist/client"
+	"cloud_music/distributed/rpcsupport"
+	worker "cloud_music/distributed/worker/client"
+	"cloud_music/engine"
+	"cloud_music/music/parser"
+	"cloud_music/scheduler"
 	"flag"
 	"log"
 	"net/rpc"
 	"strings"
-	"yyy/distributed/config"
-	itemsaver "yyy/distributed/persist/client"
-	"yyy/distributed/rpcsupport"
-	worker "yyy/distributed/worker/client"
-	"yyy/engine"
-	"yyy/music/parser"
-	"yyy/scheduler"
 )
 
 var (

@@ -1,9 +1,9 @@
 package parser
 
 import (
+	"cloud_music/distributed/config"
+	"cloud_music/engine"
 	"regexp"
-	"yyy/distributed/config"
-	"yyy/engine"
 )
 
 var playerListRe = regexp.MustCompile(`<a .*(/artist\?id=[0-9]+).*[^>]*>([^<]+)</a>`)

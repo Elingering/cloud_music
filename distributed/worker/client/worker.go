@@ -1,10 +1,10 @@
 package client
 
 import (
+	"cloud_music/distributed/config"
+	"cloud_music/distributed/worker"
+	"cloud_music/engine"
 	"net/rpc"
-	"yyy/distributed/config"
-	"yyy/distributed/worker"
-	"yyy/engine"
 )
 
 func CreateProcessor(clientChan chan *rpc.Client) engine.Processor {

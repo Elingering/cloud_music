@@ -1,6 +1,6 @@
 package scheduler
 
-import "yyy/engine"
+import "cloud_music/engine"
 
 type SimpleScheduler struct {
 	workerChan chan engine.Request

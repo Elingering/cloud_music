@@ -1,14 +1,14 @@
 package worker
 
 import (
+	"cloud_music/distributed/config"
+	"cloud_music/engine"
+	"cloud_music/model"
+	"cloud_music/music/parser"
 	"errors"
 	"fmt"
 	"log"
 	"strings"
-	"yyy/distributed/config"
-	"yyy/engine"
-	"yyy/model"
-	"yyy/music/parser"
 )
 
 type SerializedParser struct {

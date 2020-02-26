@@ -1,16 +1,16 @@
 package main
 
 import (
+	"cloud_music/distributed/config"
+	"cloud_music/distributed/rpcsupport"
+	"cloud_music/model"
 	"testing"
 	"time"
-	"yyy/distributed/config"
-	"yyy/distributed/rpcsupport"
-	"yyy/model"
 )
 
 func TestItemSaver(t *testing.T) {
 	const host = ":1234"
-	go serveRpc(host, "yyy_test", "comment")
+	go serveRpc(host, "cloud_music_test", "comment")
 	time.Sleep(time.Second)
 	client, err := rpcsupport.NewClient(host)
 	if err != nil {
