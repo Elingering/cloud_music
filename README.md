@@ -14,6 +14,7 @@
 
 `
 cd cloud_music
+
 go run main.go
 `
 ## distributed
@@ -22,6 +23,7 @@ go run main.go
 
 `
 cd cloud_music/distributed/persist/server
+
 go run itemsaver.go -port=1234
 `
 
@@ -29,9 +31,13 @@ go run itemsaver.go -port=1234
 
 `
 cd cloud_music/distributed/worker/server
+
 go run worker.go -port=9000
+
 开启多个worker
+
 cd cloud_music/distributed/worker/server
+
 go run worker.go -port=9001
 `
 
@@ -39,5 +45,6 @@ go run worker.go -port=9001
 
 `
 cd cloud_music
+
 go run main.go -itemsaver_host=":1234" -worker_hosts=":9000,:9001"
 `
