@@ -30,9 +30,7 @@ go run itemsaver.go -port=1234
 `
 cd cloud_music/distributed/worker/server
 go run worker.go -port=9000
-
 开启多个worker
-
 cd cloud_music/distributed/worker/server
 go run worker.go -port=9001
 `
