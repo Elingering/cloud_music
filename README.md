@@ -2,7 +2,9 @@
 网易云音乐爬虫
 
 项目有三个分支master，concurrentEngine，distributed分别对应单机版，并发版，分布式版。
+
 项目从https://music.163.com//discover/artist 开始爬取，依次获取歌手分类列表，歌手列表，歌曲列表，歌曲热评。
+
 爬虫使用广度优先算法，代码中限制了每个列表的广度。
 
 ## master
@@ -28,7 +30,9 @@ go run itemsaver.go -port=1234
 `
 cd cloud_music/distributed/worker/server
 go run worker.go -port=9000
+
 开启多个worker
+
 cd cloud_music/distributed/worker/server
 go run worker.go -port=9001
 `
