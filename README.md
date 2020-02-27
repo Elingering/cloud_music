@@ -12,24 +12,24 @@
 ## concurrent
 爬取内容使用es存储
 
-`
+```
 cd cloud_music
 
 go run main.go
-`
+```
 ## distributed
 爬取内容使用es存储
 开启saveer服务：
 
-`
+```
 cd cloud_music/distributed/persist/server
 
 go run itemsaver.go -port=1234
-`
+```
 
 开启worker服务：
 
-`
+```
 cd cloud_music/distributed/worker/server
 
 go run worker.go -port=9000
@@ -39,12 +39,12 @@ go run worker.go -port=9000
 cd cloud_music/distributed/worker/server
 
 go run worker.go -port=9001
-`
+```
 
 启动爬虫：
 
-`
+```
 cd cloud_music
 
 go run main.go -itemsaver_host=":1234" -worker_hosts=":9000,:9001"
-`
+```
